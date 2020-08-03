@@ -53,8 +53,10 @@ setuptools.setup(
     install_requires=[
         'defusedxml',
         'networkx',
+        'onnx-tf@git+https://github.com/onnx/onnx-tensorflow.git',
         'tensorflow',
         'test-generator==0.1.1',
+        'tensorflow_addons',
         'tf2onnx'
     ],
     entry_points={'console_scripts': ['model-compiler=model_compiler.main:main']},

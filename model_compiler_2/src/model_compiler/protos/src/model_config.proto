@@ -115,7 +115,7 @@ message ModelConfigProto {
     string name = 1;
 
     // The framework for the model. Possible values "tensorrt", "tensorflow",
-    // "openvino".
+    // "openvino", "tensorflow_lite".
     string platform = 2;
 
     // The version of framework for the model.
