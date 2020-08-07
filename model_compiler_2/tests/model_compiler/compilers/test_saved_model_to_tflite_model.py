@@ -74,17 +74,13 @@ class CompileSourceTestCase(TestCase):
         with tf.Graph().as_default(), tf.compat.v1.Session().as_default() as session:
             input_x = tf.zeros([144, 12, 24], dtype=tf.complex64)
             input_y = tf.zeros([144, 12, 24], dtype=tf.complex64)
-            weight = tf.Variable(initial_value=[2.0, 3.0, 4.0, 5.0], dtype=tf.float32)
-            output_z = input_x + input_y + weight
-
-            session.run(weight.initializer)
+            output_z = input_x + input_y
 
         saved_model = SavedModel(inputs=[Input(name='x', tensor=input_x, data_format=DataFormat.CHANNELS_FIRST),
                                          Input(name='y', tensor=input_y, data_format=DataFormat.CHANNELS_LAST)],
                                  outputs=[Output(name='z', tensor=output_z)],
                                  session=session)
-
-        compiled = compiler.compile_source(saved_model, config=Config.from_json({}))
+        compiled = compiler.compile_source(saved_model, config=Config())
 
         self.assertIsInstance(compiled.tflite_model, bytes)
         self.assertEqual(compiled.input_formats, [DataFormat.CHANNELS_FIRST, DataFormat.CHANNELS_LAST])

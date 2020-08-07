@@ -4,6 +4,9 @@
 from tempfile import NamedTemporaryFile
 from unittest import TestCase
 
+import tensorflow as tf
+import onnx
+
 import model_compiler.compilers.tf_model_to_tf_frozen_graph_model as tf_model_compiler
 import model_compiler.compilers.tf_frozen_graph_model_to_onnx_model as frozen_graph_compiler
 import model_compiler.compilers.onnx_model_to_tf_model as onnx_to_tf_compiler
@@ -12,9 +15,6 @@ import model_compiler.compilers.onnx_model_file_to_onnx_model as onnx_compiler
 from model_compiler.compilers.onnx_model_file_to_onnx_model import Config
 from model_compiler.models.irs.tf_model import Input, TensorFlowModel
 from model_compiler.models.sources.onnx_model_file import ONNXModelFile
-
-import tensorflow as tf
-import onnx
 
 
 def _make_onnx_model():
