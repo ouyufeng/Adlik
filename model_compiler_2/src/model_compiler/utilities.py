@@ -3,6 +3,8 @@
 
 from typing import Callable, List, Optional, TypeVar
 
+import requests
+import time
 import tensorflow as tf
 
 from .models.data_format import DataFormat
@@ -56,3 +58,17 @@ def get_data_formats(input_formats):
 
 def split_by(value: Optional[str], separator: str) -> Optional[List[str]]:
     return map_optional(value, lambda val: val.split(separator))
+
+
+def send_response(url, message):
+    retries = 0
+    max_retries = 3
+
+    while retries <= max_retries:
+        try:
+            result = requests.put(url, json=message)
+            return result
+        except Exception as exception:  # pylint:disable=broad-except
+            time.sleep(2)
+            retries += 1
+            continue

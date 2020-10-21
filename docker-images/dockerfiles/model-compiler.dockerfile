@@ -3,7 +3,8 @@ ARG UBUNTU_VERSION
 # Base.
 
 FROM "ubuntu:$UBUNTU_VERSION" as base
-
+COPY sources.list /etc/apt/sources.list
+COPY script/ /script/
 RUN apt-get update && \
     apt-get install --no-install-recommends -y python3-pip && \
     apt-get clean && \
@@ -17,7 +18,6 @@ FROM base as builder
 
 RUN apt-get update
 RUN apt-get install --no-install-recommends -y protobuf-compiler
-
 COPY model_compiler_2 /src
 
 WORKDIR /src
@@ -60,4 +60,5 @@ RUN python3 -m pip install /tmp/model-compiler-package/*.whl && \
 
 ENV INTEL_CVSDK_DIR=/opt/intel/openvino_$OPENVINO_VERSION
 
-CMD ["model-compiler"]
+RUN chmod +x /script/run_compiler.sh
+CMD /script/run_compiler.sh
